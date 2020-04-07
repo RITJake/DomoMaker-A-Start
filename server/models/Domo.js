@@ -38,11 +38,6 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
-  name: doc.name,
-  age: doc.age,
-});
-
 DomoSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
@@ -50,6 +45,12 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
 
   return DomoModel.find(search).select('name age').lean().exec(callback);
 };
+
+DomoSchema.statics.toAPI = (doc) => ({
+  name: doc.name,
+  age: doc.age,
+});
+
 
 DomoModel = mongoose.model('Domo', DomoSchema);
 
