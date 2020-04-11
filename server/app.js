@@ -42,7 +42,7 @@ if (process.env.REDISCLOUD_URL) {
   [, redisPASS] = redisURL.auth.split(':');
 }
 
-let redisClient = redis.createClient({
+const redisClient = redis.createClient({
   host: redisURL.hostname,
   port: redisURL.port,
   password: redisPASS,
@@ -76,11 +76,11 @@ app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.use(csrf());
-app.use((err, req, res, next) =>{
-    if (err.code !== 'EBADCSRFTOKEN') return next(err);
+app.use((err, req, res, next) => {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
-    console.log('Missing CSRF token');
-    return false;
+  console.log('Missing CSRF token');
+  return false;
 });
 
 router(app);
