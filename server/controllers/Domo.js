@@ -58,6 +58,7 @@ const getDomos = (request, response) => {
   });
 };
 
+/*
 const removeDomo = (request, response) => {
   const req = request;
   const res = response;
@@ -82,7 +83,7 @@ const removeDomo = (request, response) => {
 
   return domoPromise;
 };
-
+*/
 module.exports.makerPage = makerPage;
 module.exports.make = makeDomo;
 module.exports.getDomos = getDomos;

@@ -59,14 +59,21 @@ var DomoForm = function DomoForm(props) {
     }))
   );
 };
+/*
+const removeDomo = (e)=>{
+    const domoId = $(e.currentTarget).attr("#key");
 
-var removeDomo = function removeDomo(e) {
-  var domoId = $(e.currentTarget).attr("#key");
-  var csrf = $("#csrf").val();
-  sendAjax('POST', "/removeDomo", "_csrf=".concat(csrf, "&id=").concat(domoId), function () {
-    loadDomosFromServer();
-  });
-};
+    const csrf = $("#csrf").val();
+
+    
+    sendAjax('POST', "/removeDomo",`_csrf=${csrf}&id=${domoId}`, function(){
+        loadDomosFromServer();
+    });
+       
+    
+}
+*/
+
 
 var DomoList = function DomoList(props) {
   if (props.domos.length === 0) {
@@ -81,10 +88,9 @@ var DomoList = function DomoList(props) {
   var domoNodes = props.domos.map(function (domo) {
     return (/*#__PURE__*/React.createElement("div", {
         key: domo._id,
-        className: "domo",
-        onClick: function onClick(e) {
-          return removeDomo(e);
-        }
+        className: "domo"
+        /*onClick={(e) => removeDomo(e)} */
+
       }, /*#__PURE__*/React.createElement("img", {
         src: "/assets/img/domoface.jpeg",
         alt: "domo face",
