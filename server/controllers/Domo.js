@@ -87,4 +87,4 @@ const removeDomo = (request, response) => {
 module.exports.makerPage = makerPage;
 module.exports.make = makeDomo;
 module.exports.getDomos = getDomos;
-module.exports.removeDomo = removeDomo;
+// module.exports.removeDomo = removeDomo;
