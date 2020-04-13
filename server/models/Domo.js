@@ -12,6 +12,8 @@ let DomoModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
+const setColor = (color) => _.escape(color).trim();
+
 const DomoSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -26,6 +28,13 @@ const DomoSchema = new mongoose.Schema({
     required: true,
   },
 
+  color: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setColor,
+  },
+
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -38,17 +47,19 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
+
 DomoSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age').lean().exec(callback);
+  return DomoModel.find(search).select('name age color').lean().exec(callback);
 };
 
 DomoSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
+  color: doc.color,
 });
 
 

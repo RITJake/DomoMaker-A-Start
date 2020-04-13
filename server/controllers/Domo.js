@@ -4,13 +4,14 @@ const models = require('../models');
 const { Domo } = models;
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
+  if (!req.body.name || !req.body.age || !req.body.color) {
     return res.status(400).json({ error: 'RAWR! both name and age are required' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    color: req.body.color,
     owner: req.session.account._id,
   };
 
@@ -57,6 +58,32 @@ const getDomos = (request, response) => {
   });
 };
 
+const removeDomo = (request, response) => {
+  const req = request;
+  const res = response;
+
+  // in case the domo does not exist
+  if (!req.body.id) {
+    return res.status(400).json({ error: 'Domo was not found :(' });
+  }
+  const { id } = req.body;
+
+
+  const domoPromise = Domo.DomoModel.findByIdAndRemove({ id });
+
+  domoPromise.then(() => res.json({ redirect: '/maker' }));
+
+  domoPromise.catch((err) => {
+    console.log(err);
+
+
+    return res.status(400).json({ error: 'An error occurred' });
+  });
+
+  return domoPromise;
+};
+
 module.exports.makerPage = makerPage;
 module.exports.make = makeDomo;
 module.exports.getDomos = getDomos;
+module.exports.removeDomo = removeDomo;

@@ -1,12 +1,14 @@
 "use strict";
 
+var _models = require("../../server/models");
+
 var handleDomo = function handleDomo(e) {
   e.preventDefault();
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
+  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoColor").val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
@@ -39,6 +41,13 @@ var DomoForm = function DomoForm(props) {
       type: "text",
       name: "age",
       placeholder: "Domo Age"
+    }), /*#__PURE__*/React.createElement("label", {
+      htmlFor: "color"
+    }, "Favorite Color: "), /*#__PURE__*/React.createElement("input", {
+      id: "domoColor",
+      type: "text",
+      name: "color",
+      placeholder: "Favorite Color"
     }), /*#__PURE__*/React.createElement("input", {
       type: "hidden",
       name: "_csrf",
@@ -49,6 +58,14 @@ var DomoForm = function DomoForm(props) {
       value: "Make Domo"
     }))
   );
+};
+
+var removeDomo = function removeDomo(e) {
+  var domoId = $(e.currentTarget).attr("#key");
+  var csrf = $("#csrf").val();
+  sendAjax('POST', "/removeDomo", "_csrf=".concat(csrf, "&id=").concat(domoId), function () {
+    loadDomosFromServer();
+  });
 };
 
 var DomoList = function DomoList(props) {
@@ -64,7 +81,10 @@ var DomoList = function DomoList(props) {
   var domoNodes = props.domos.map(function (domo) {
     return (/*#__PURE__*/React.createElement("div", {
         key: domo._id,
-        className: "domo"
+        className: "domo",
+        onClick: function onClick(e) {
+          return removeDomo(e);
+        }
       }, /*#__PURE__*/React.createElement("img", {
         src: "/assets/img/domoface.jpeg",
         alt: "domo face",
@@ -73,7 +93,9 @@ var DomoList = function DomoList(props) {
         className: "domoName"
       }, "Name: ", domo.name), /*#__PURE__*/React.createElement("h3", {
         className: "domoAge"
-      }, "Name: ", domo.age))
+      }, "Age: ", domo.age), /*#__PURE__*/React.createElement("h3", {
+        className: "domoColor"
+      }, "Favorite Color: ", domo.color))
     );
   });
   return (/*#__PURE__*/React.createElement("div", {
