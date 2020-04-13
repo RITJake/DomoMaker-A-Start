@@ -1,6 +1,6 @@
 "use strict";
 
-var _models = require("../../server/models");
+
 
 var handleDomo = function handleDomo(e) {
   e.preventDefault();
