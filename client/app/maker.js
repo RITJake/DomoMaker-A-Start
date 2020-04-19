@@ -1,4 +1,3 @@
-import { Domo } from "../../server/models";
 
 const handleDomo = (e) =>{
     e.preventDefault();
